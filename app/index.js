@@ -1,26 +1,20 @@
 import React, { Component } from 'react';
-import { FlatList, Platform, StyleSheet, Text, View } from 'react-native';
+import { StatusBar, View } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 
-import HeaderBar from './components/HeaderBar';
-import ListItem from './components/ListItem';
-import StatusBarSpacer from './components/StatusBarSpacer';
+import ListScreen from './screens/ListScreen';
 
-import filmData from './data/films.json';
+const Screens = StackNavigator({
+  List: { screen: ListScreen }
+});
 
 export default class App extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <StatusBarSpacer />
-        <HeaderBar />
-        <FlatList data={filmData} renderItem={({item}) => <ListItem film={item} />} />
+      <View style={{flex: 1}}>
+        <StatusBar barStyle="light-content" backgroundColor="#559951" />
+        <Screens />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});
