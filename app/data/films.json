@@ -1,24 +1,30 @@
 [{
+  "key": "film1",
   "title": "Film",
   "date": "Date/Time",
   "channel": "Channel"
 }, {
+  "key": "film2",
   "title": "Film",
   "date": "Date/Time",
   "channel": "Channel"
 }, {
+  "key": "film3",
   "title": "Film",
   "date": "Date/Time",
   "channel": "Channel"
 }, {
+  "key": "film4",
   "title": "Film",
   "date": "Date/Time",
   "channel": "Channel"
 }, {
+  "key": "film5",
   "title": "Film",
   "date": "Date/Time",
   "channel": "Channel"
 }, {
+  "key": "film6",
   "title": "Film",
   "date": "Date/Time",
   "channel": "Channel"

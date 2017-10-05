@@ -1,11 +1,5 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Platform, StyleSheet, Text, View } from 'react-native';
 
 import HeaderBar from './components/HeaderBar';
 import ListItem from './components/ListItem';
@@ -19,7 +13,7 @@ export default class App extends Component {
       <View style={styles.container}>
         <StatusBarSpacer />
         <HeaderBar />
-        {filmData.map(film =><ListItem film={film} />)}
+        <FlatList data={filmData} renderItem={({item}) => <ListItem film={item} />} />
       </View>
     );
   }
