@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
+import { gql, graphql } from 'react-apollo';
 
 import ListItem from '../components/ListItem';
 
-import filmData from '../data/films.json';
+// import filmData from '../data/films.json';
 
-export default class ListScreen extends Component {
+const filmsListQuery = gql`
+  query {
+    allFilms {
+      nodes {
+        name
+        year
+        synopsis
+        tmdbId
+      }
+    }
+  }
+`;
+
+class ListScreen extends Component {
   static navigationOptions = {
     title: 'Films on Freeview',
     headerStyle: {
@@ -15,8 +29,14 @@ export default class ListScreen extends Component {
   };
 
   render() {
+    // const { loading } = this.props.data;
+    const films = (this.props.data.allFilms && this.props.data.allFilms.nodes) || [];
+
     return (
-      <FlatList style={styles.container} data={filmData} renderItem={({item}) => <ListItem film={item} />} />
+      <FlatList
+       style={styles.container}
+       data={films}
+       renderItem={({item}) => <ListItem film={item} />} />
     );
   }
 }
@@ -26,3 +46,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   }
 });
+
+const ListScreenWithData = graphql(filmsListQuery)(ListScreen);
+
+export default ListScreenWithData;

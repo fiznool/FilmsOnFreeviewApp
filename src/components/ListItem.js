@@ -11,9 +11,9 @@ export default class ListItem extends Component {
           <Image style={{width: 50, height: 50 }} source={placeholderImage} />
         </View>
         <View style={styles.titlesContainer}>
-          <Text style={styles.title}>{this.props.film.title}</Text>
-          <Text style={styles.datetime}>{this.props.film.date}</Text>
-          <Text style={styles.channel}>{this.props.film.channel}</Text>
+          <Text style={styles.title}>{this.props.film.name}</Text>
+          <Text style={styles.datetime}>{this.props.film.year}</Text>
+          <Text style={styles.channel}>{this.props.film.tmdbId}</Text>
         </View>
       </View>
     );

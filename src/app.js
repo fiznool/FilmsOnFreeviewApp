@@ -6,6 +6,8 @@ import ListScreen from './screens/ListScreen';
 
 const Screens = StackNavigator({
   List: { screen: ListScreen }
+}, {
+  initialRouteName: 'List'
 });
 
 export default class App extends Component {
