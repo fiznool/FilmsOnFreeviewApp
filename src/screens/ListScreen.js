@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
 import { gql, graphql } from 'react-apollo';
 
-import ListItem from '../components/ListItem';
+import FilmList from '../components/FilmList';
 
 // import filmData from '../data/films.json';
 
@@ -10,6 +9,7 @@ const filmsListQuery = gql`
   query {
     allFilms {
       nodes {
+        id
         name
         year
         synopsis
@@ -29,23 +29,11 @@ class ListScreen extends Component {
   };
 
   render() {
-    // const { loading } = this.props.data;
+    const { loading } = this.props.data;
     const films = (this.props.data.allFilms && this.props.data.allFilms.nodes) || [];
-
-    return (
-      <FlatList
-       style={styles.container}
-       data={films}
-       renderItem={({item}) => <ListItem film={item} />} />
-    );
+    return <FilmList films={films} loading={loading} />
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff'
-  }
-});
 
 const ListScreenWithData = graphql(filmsListQuery)(ListScreen);
 

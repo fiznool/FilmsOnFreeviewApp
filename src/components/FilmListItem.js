@@ -3,22 +3,18 @@ import { Image, StyleSheet, View, Text } from 'react-native';
 
 const placeholderImage = require('../assets/film-poster-placeholder.png')
 
-export default class ListItem extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image style={{width: 50, height: 50 }} source={placeholderImage} />
-        </View>
-        <View style={styles.titlesContainer}>
-          <Text style={styles.title}>{this.props.film.name}</Text>
-          <Text style={styles.datetime}>{this.props.film.year}</Text>
-          <Text style={styles.channel}>{this.props.film.tmdbId}</Text>
-        </View>
-      </View>
-    );
-  }
-}
+export default ListItem = ({ film }) => (
+  <View style={styles.container}>
+    <View style={styles.imageContainer}>
+      <Image style={{width: 50, height: 50 }} source={placeholderImage} />
+    </View>
+    <View style={styles.titlesContainer}>
+      <Text style={styles.title}>{film.name}</Text>
+      <Text style={styles.datetime}>{film.year}</Text>
+      {/* <Text style={styles.channel}>{film.tmdbId}</Text> */}
+    </View>
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {

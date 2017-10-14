@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppRegistry } from 'react-native';
+import { AppRegistry, Platform } from 'react-native';
 import {
   ApolloClient,
   ApolloProvider,
@@ -8,8 +8,10 @@ import {
 
 import App from './src/app';
 
+const domain = Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
+
 const networkInterface = createNetworkInterface({
-  uri: `http://10.0.2.2:5000/graphql`
+  uri: `http://${domain}:5000/graphql`
 });
 
 const client = new ApolloClient({
