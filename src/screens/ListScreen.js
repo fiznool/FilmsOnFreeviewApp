@@ -7,13 +7,21 @@ import FilmList from '../components/FilmList';
 
 const filmsListQuery = gql`
   query {
-    allFilms {
+    films: allFilms {
       nodes {
         id
         name
         year
         synopsis
+        channel
         tmdbId
+        tmdbRating
+        showtimes: showtimesByFilmId {
+          nodes {
+            startsAt
+            endsAt
+          }
+        }
       }
     }
   }
@@ -30,7 +38,7 @@ class ListScreen extends Component {
 
   render() {
     const { loading } = this.props.data;
-    const films = (this.props.data.allFilms && this.props.data.allFilms.nodes) || [];
+    const films = (this.props.data.films && this.props.data.films.nodes) || [];
     return <FilmList films={films} loading={loading} />
   }
 }

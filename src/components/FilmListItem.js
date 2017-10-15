@@ -5,14 +5,16 @@ const placeholderImage = require('../assets/film-poster-placeholder.png')
 
 export default ListItem = ({ film }) => (
   <View style={styles.container}>
-    <View style={styles.imageContainer}>
+    {/* <View style={styles.imageContainer}>
       <Image style={{width: 50, height: 50 }} source={placeholderImage} />
-    </View>
+    </View> */}
     <View style={styles.titlesContainer}>
-      <Text style={styles.title}>{film.name}</Text>
-      <Text style={styles.datetime}>{film.year}</Text>
-      {/* <Text style={styles.channel}>{film.tmdbId}</Text> */}
+<Text style={styles.title}>{film.name}{film.year && <Text style={styles.year}> ({film.year})</Text>}</Text>
+      <Text style={styles.datetime}>{film.showtimes.nodes[0].startsAt} on {film.channel}</Text>
     </View>
+    { !!(film.tmdbRating) && <View style={styles.ratingContainer}>
+      <Text style={styles.rating}>{film.tmdbRating}%</Text>
+    </View>}
   </View>
 );
 
@@ -23,8 +25,8 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     marginTop: 4,
     paddingBottom: 6,
-    paddingLeft: 6,
-    paddingRight: 6,
+    paddingLeft: 12,
+    paddingRight: 12,
     flexDirection: 'row'
   },
   imageContainer: {
@@ -33,13 +35,23 @@ const styles = StyleSheet.create({
   titlesContainer: {
     flex: 1
   },
+  ratingContainer: {
+    alignSelf: 'center',
+    paddingLeft: 6
+  },
   title: {
     fontSize: 16
+  },
+  year: {
+    fontSize: 14,
+    fontStyle: 'italic',
+    color: '#555'
   },
   datetime: {
     fontSize: 12
   },
-  channel: {
-    fontSize: 12
+  rating: {
+    fontSize: 16,
+    color: '#68AA63'
   }
 });
