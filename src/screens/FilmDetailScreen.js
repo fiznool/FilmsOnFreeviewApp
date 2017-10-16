@@ -13,12 +13,15 @@ FilmDetailScreen.propTypes = {
   navigation: PropTypes.object
 }
 
-FilmDetailScreen.navigationOptions = {
-  title: 'Films Detail',
-  headerStyle: {
-    backgroundColor: colors.$primary
-  },
-  headerTintColor: colors.$white
+FilmDetailScreen.navigationOptions = (props) => {
+  const { film } = props.navigation.state.params;
+  return {
+    title: film.name,
+    headerStyle: {
+      backgroundColor: colors.$primary
+    },
+    headerTintColor: colors.$white
+  }
 };
 
 export default FilmDetailScreen;
