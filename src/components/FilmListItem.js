@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Image, StyleSheet, View, Text, TouchableHighlight } from 'react-native';
+import { Image, StyleSheet, View, Text } from 'react-native';
 
 import * as colors from '../theme/colors';
+import ListItem from './ListItem';
 
-function ListItem({ film, onItemSelected }) {
+function FilmListItem({ film, onItemSelected }) {
   const nextShowtime = film.showtimes.nodes[0];
   const nextShowTimeDate = moment(nextShowtime.startsAt).calendar();
   const nextShowtimeChannel = nextShowtime.channel;
@@ -15,8 +16,8 @@ function ListItem({ film, onItemSelected }) {
   }
 
   return (
-    <TouchableHighlight style={styles.container} onPress={onFilmSelected}>
-      <View>
+    <ListItem style={styles.listItem} onPress={onFilmSelected} underlayColor={colors.$gallery}>
+      <View style={styles.container}>
         <View style={styles.titlesContainer}>
           <Text style={styles.title}>{film.name}{film.year && <Text style={styles.year}> ({film.year})</Text>}</Text>
           <Text style={styles.datetime}>{nextShowTimeDate} on {nextShowtimeChannel}</Text>
@@ -25,25 +26,22 @@ function ListItem({ film, onItemSelected }) {
           <Text style={styles.rating}>{film.tmdbRating}%</Text>
         </View>}
       </View>
-    </TouchableHighlight>
+    </ListItem>
   );
 }
 
-ListItem.propTypes = {
+FilmListItem.propTypes = {
   film: PropTypes.object,
   onItemSelected: PropTypes.func
 }
 
-ListItem.displayName = 'ListItem';
-
-export default ListItem;
+export default FilmListItem;
 
 const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 1,
-    borderBottomColor: colors.$lightGrey,
-    marginBottom: 4,
-    marginTop: 4,
+    borderBottomColor: colors.$concrete,
+    paddingTop: 6,
     paddingBottom: 6,
     paddingLeft: 12,
     paddingRight: 12,
@@ -63,7 +61,7 @@ const styles = StyleSheet.create({
   year: {
     fontSize: 14,
     fontStyle: 'italic',
-    color: colors.$darkGrey
+    color: colors.$doveGray
   },
   datetime: {
     fontSize: 12
