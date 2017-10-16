@@ -6,7 +6,6 @@ import FilmDetail from '../components/FilmDetail';
 
 function FilmDetailScreen({ navigation }) {
   const { film } = navigation.state.params;
-  console.log(film);
   return <FilmDetail film={film} />
 }
 

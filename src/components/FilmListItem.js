@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Image, StyleSheet, View, Text } from 'react-native';
+import { Image, Platform, StyleSheet, View, Text } from 'react-native';
 
 import * as colors from '../theme/colors';
 import ListItem from './ListItem';
@@ -39,12 +39,6 @@ export default FilmListItem;
 
 const styles = StyleSheet.create({
   container: {
-    borderBottomWidth: 1,
-    borderBottomColor: colors.$concrete,
-    paddingTop: 6,
-    paddingBottom: 6,
-    paddingLeft: 12,
-    paddingRight: 12,
     flexDirection: 'row'
   },
   titlesContainer: {
@@ -61,7 +55,11 @@ const styles = StyleSheet.create({
   year: {
     fontSize: 14,
     fontStyle: 'italic',
-    color: colors.$doveGray
+    ...Platform.select({
+      ios: {
+        color: colors.$doveGray
+      }
+    })
   },
   datetime: {
     fontSize: 12
