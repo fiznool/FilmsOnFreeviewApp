@@ -1,43 +1,53 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Image, StyleSheet, View, Text } from 'react-native';
+import { Image, StyleSheet, View, Text, TouchableHighlight } from 'react-native';
 
-const placeholderImage = require('../assets/film-poster-placeholder.png')
+import * as colors from '../theme/colors';
 
-export default ListItem = ({ film }) => {
+function ListItem({ film, onItemSelected }) {
   const nextShowtime = film.showtimes.nodes[0];
   const nextShowTimeDate = moment(nextShowtime.startsAt).calendar();
   const nextShowtimeChannel = nextShowtime.channel;
 
+  function onFilmSelected() {
+    onItemSelected(film);
+  }
+
   return (
-    <View style={styles.container}>
-    {/* <View style={styles.imageContainer}>
-      <Image style={{width: 50, height: 50 }} source={placeholderImage} />
-    </View> */}
-    <View style={styles.titlesContainer}>
-      <Text style={styles.title}>{film.name}{film.year && <Text style={styles.year}> ({film.year})</Text>}</Text>
-      <Text style={styles.datetime}>{nextShowTimeDate} on {nextShowtimeChannel}</Text>
-    </View>
-    { !!(film.tmdbRating) && <View style={styles.ratingContainer}>
-      <Text style={styles.rating}>{film.tmdbRating}%</Text>
-    </View>}
-  </View>
+    <TouchableHighlight style={styles.container} onPress={onFilmSelected}>
+      <View>
+        <View style={styles.titlesContainer}>
+          <Text style={styles.title}>{film.name}{film.year && <Text style={styles.year}> ({film.year})</Text>}</Text>
+          <Text style={styles.datetime}>{nextShowTimeDate} on {nextShowtimeChannel}</Text>
+        </View>
+        { !!(film.tmdbRating) && <View style={styles.ratingContainer}>
+          <Text style={styles.rating}>{film.tmdbRating}%</Text>
+        </View>}
+      </View>
+    </TouchableHighlight>
   );
 }
+
+ListItem.propTypes = {
+  film: PropTypes.object,
+  onItemSelected: PropTypes.func
+}
+
+ListItem.displayName = 'ListItem';
+
+export default ListItem;
 
 const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: colors.$lightGrey,
     marginBottom: 4,
     marginTop: 4,
     paddingBottom: 6,
     paddingLeft: 12,
     paddingRight: 12,
     flexDirection: 'row'
-  },
-  imageContainer: {
-    width: 60
   },
   titlesContainer: {
     flex: 1
@@ -53,13 +63,13 @@ const styles = StyleSheet.create({
   year: {
     fontSize: 14,
     fontStyle: 'italic',
-    color: '#555'
+    color: colors.$darkGrey
   },
   datetime: {
     fontSize: 12
   },
   rating: {
     fontSize: 16,
-    color: '#68AA63'
+    color: colors.$primary
   }
 });

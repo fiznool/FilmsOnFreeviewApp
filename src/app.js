@@ -1,23 +1,30 @@
 import React, { Component } from 'react';
-import { StatusBar, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 
-import ListScreen from './screens/ListScreen';
+import FilmListScreen from './screens/FilmListScreen';
+import FilmDetailsScreen from './screens/FilmDetailScreen';
 
 const Screens = StackNavigator({
-  List: { screen: ListScreen }
+  FilmList: { screen: FilmListScreen },
+  FilmDetail: { screen: FilmDetailsScreen }
 }, {
-  initialRouteName: 'List'
+  initialRouteName: 'FilmList'
 });
 
 export default class App extends Component {
   render() {
     return (
-      <View style={{flex: 1}}>
-        <StatusBar barStyle="light-content" backgroundColor="#559951" />
+      <View style={styles.container}>
         <Screens />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+});
