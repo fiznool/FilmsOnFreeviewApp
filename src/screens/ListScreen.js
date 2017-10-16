@@ -13,13 +13,13 @@ const filmsListQuery = gql`
         name
         year
         synopsis
-        channel
         tmdbId
         tmdbRating
         showtimes: showtimesByFilmId {
           nodes {
             startsAt
             endsAt
+            channel
           }
         }
       }

@@ -6,6 +6,14 @@ import {
   createNetworkInterface,
 } from 'react-apollo';
 
+import moment from 'moment';
+
+moment.updateLocale('en', {
+  longDateFormat : {
+    LT: "h:mma",
+  }
+});
+
 import App from './src/app';
 
 const domain = Platform.OS === 'android' ? '10.0.2.2' : 'localhost';

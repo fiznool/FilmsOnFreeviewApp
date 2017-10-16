@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StatusBar, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
+
 import ListScreen from './screens/ListScreen';
 
 const Screens = StackNavigator({
