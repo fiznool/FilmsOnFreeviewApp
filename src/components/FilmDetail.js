@@ -27,8 +27,8 @@ function FilmDetail({ film }) {
         </View>
         <View style={styles.col}>
           <Text style={styles.name}>{film.name}</Text>
-          {film.year && <Text style={styles.year}>Released in {film.year}</Text>}
-          {film.tmdbRating && <Text style={styles.rating}>Rating: {film.tmdbRating}%</Text>}
+          {!!film.year && <Text style={styles.year}>Released in {film.year}</Text>}
+          {!!film.tmdbRating && <Text style={styles.rating}>Rating: {film.tmdbRating}%</Text>}
           <View style={styles.showtimesContainer}>
             <Text style={styles.showtimesHeader}>Showtimes:</Text>
             {showtimes}
