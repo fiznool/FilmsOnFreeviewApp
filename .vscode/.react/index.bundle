@@ -1311,7 +1311,7 @@ _moment2.default.updateLocale('en', {
 var domain = _reactNative.Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
 
 var networkInterface = (0, _reactApollo.createNetworkInterface)({
-  uri: 'http://' + domain + ':5000/graphql'
+  uri: 'https://filmsonfreeview.herokuapp.com/graphql'
 });
 
 var client = new _reactApollo.ApolloClient({
@@ -82560,7 +82560,7 @@ function FilmDetail(_ref) {
           },
           film.name
         ),
-        film.year && _react2.default.createElement(
+        !!film.year && _react2.default.createElement(
           _reactNative.Text,
           { style: styles.year, __source: {
               fileName: _jsxFileName,
@@ -82570,7 +82570,7 @@ function FilmDetail(_ref) {
           'Released in ',
           film.year
         ),
-        film.tmdbRating && _react2.default.createElement(
+        !!film.tmdbRating && _react2.default.createElement(
           _reactNative.Text,
           { style: styles.rating, __source: {
               fileName: _jsxFileName,

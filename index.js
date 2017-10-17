@@ -19,7 +19,7 @@ import App from './src/app';
 const domain = Platform.OS === 'android' ? '10.0.2.2' : 'localhost';
 
 const networkInterface = createNetworkInterface({
-  uri: `http://${domain}:5000/graphql`
+  uri: `https://filmsonfreeview.herokuapp.com/graphql`
 });
 
 const client = new ApolloClient({

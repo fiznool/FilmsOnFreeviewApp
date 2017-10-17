@@ -31,7 +31,7 @@ const filmsListQuery = gql`
 function FilmListScreen({ navigation, data }) {
   const { loading } = data;
   const films = produceScheduleOfFilms((data.films && data.films.nodes) || []);
-  console.log(films);
+
   function onFilmSelected(film) {
     navigation.navigate('FilmDetail', {film})
   }
