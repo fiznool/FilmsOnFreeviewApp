@@ -79484,6 +79484,8 @@ var _FilmList = require(598                     ); // 598 = ../components/FilmLi
 
 var _FilmList2 = _interopRequireDefault(_FilmList);
 
+var _FilmUtils = require(652                 ); // 652 = ../utils/FilmUtils
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -79497,14 +79499,14 @@ function FilmListScreen(_ref) {
       data = _ref.data;
   var loading = data.loading;
 
-  var films = data.films && data.films.nodes || [];
-
+  var films = (0, _FilmUtils.produceScheduleOfFilms)(data.films && data.films.nodes || []);
+  console.log(films);
   function onFilmSelected(film) {
     navigation.navigate('FilmDetail', { film: film });
   }
   return _react2.default.createElement(_FilmList2.default, { films: films, loading: loading, onFilmSelected: onFilmSelected, __source: {
       fileName: _jsxFileName,
-      lineNumber: 37
+      lineNumber: 38
     }
   });
 }
@@ -79650,8 +79652,6 @@ function FilmListItem(_ref) {
   var film = _ref.film,
       onItemSelected = _ref.onItemSelected;
 
-  var nextShowtime = film.showtimes.nodes[0];
-
   function onFilmSelected() {
     onItemSelected(film);
   }
@@ -79660,28 +79660,28 @@ function FilmListItem(_ref) {
     _ListItem2.default,
     { style: styles.listItem, onPress: onFilmSelected, underlayColor: colors.$gallery, __source: {
         fileName: _jsxFileName,
-        lineNumber: 17
+        lineNumber: 15
       }
     },
     _react2.default.createElement(
       _reactNative.View,
       { style: styles.container, __source: {
           fileName: _jsxFileName,
-          lineNumber: 18
+          lineNumber: 16
         }
       },
       _react2.default.createElement(
         _reactNative.View,
         { style: styles.titlesContainer, __source: {
             fileName: _jsxFileName,
-            lineNumber: 19
+            lineNumber: 17
           }
         },
         _react2.default.createElement(
           _reactNative.Text,
           { style: styles.title, __source: {
               fileName: _jsxFileName,
-              lineNumber: 20
+              lineNumber: 18
             }
           },
           film.name,
@@ -79689,7 +79689,7 @@ function FilmListItem(_ref) {
             _reactNative.Text,
             { style: styles.year, __source: {
                 fileName: _jsxFileName,
-                lineNumber: 20
+                lineNumber: 18
               }
             },
             ' (',
@@ -79697,9 +79697,9 @@ function FilmListItem(_ref) {
             ')'
           )
         ),
-        _react2.default.createElement(_FilmShowtimeText2.default, { showtime: nextShowtime, style: styles.datetime, __source: {
+        _react2.default.createElement(_FilmShowtimeText2.default, { showtime: film.nextShowtime, style: styles.datetime, __source: {
             fileName: _jsxFileName,
-            lineNumber: 21
+            lineNumber: 19
           }
         })
       ),
@@ -79707,14 +79707,14 @@ function FilmListItem(_ref) {
         _reactNative.View,
         { style: styles.ratingContainer, __source: {
             fileName: _jsxFileName,
-            lineNumber: 23
+            lineNumber: 21
           }
         },
         _react2.default.createElement(
           _reactNative.Text,
           { style: styles.rating, __source: {
               fileName: _jsxFileName,
-              lineNumber: 24
+              lineNumber: 22
             }
           },
           film.tmdbRating,
@@ -82354,6 +82354,64 @@ FilmShowtimeText.propTypes = {
 
 exports.default = FilmShowtimeText;
 }, 654, null, "FilmsOnFreeviewApp/src/components/FilmShowtimeText.js");
+__d(/* FilmsOnFreeviewApp/src/utils/FilmUtils.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.getPosterSize = getPosterSize;
+exports.produceScheduleOfFilms = produceScheduleOfFilms;
+
+var _moment = require(533     ); // 533 = moment
+
+var _moment2 = _interopRequireDefault(_moment);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var POSTER_SIZES = [92, 154, 185, 342, 500, 780];
+
+function getPosterSize(targetWidth) {
+  for (var size in POSTER_SIZES) {
+    if (targetWidth <= size) {
+      return 'w' + size;
+    }
+  }
+  return 'original';
+}
+
+function produceScheduleOfFilms(films) {
+  var now = Date.now();
+  return films.reduce(filmReducer, []).sort(filmSorter);
+
+  function filmReducer(films, film) {
+    var showtimes = film.showtimes.nodes.reduce(showtimeReducer, []);
+    if (showtimes.length) {
+      films.push(_extends({}, film, { showtimes: showtimes, nextShowtime: showtimes[0] }));
+    }
+    return films;
+  }
+
+  function filmSorter(a, b) {
+    if (a.nextShowtime.startsAt < b.nextShowtime.startsAt) {
+      return -1;
+    }
+
+    if (a.nextShowtime.startsAt > b.nextShowtime.startsAt) {
+      return 1;
+    }
+
+    return 0;
+  }
+
+  function showtimeReducer(showtimes, showtime) {
+    if ((0, _moment2.default)(showtime.startsAt).isAfter(now)) {
+      showtimes.push(showtime);
+    }
+    return showtimes;
+  }
+}
+}, 652, null, "FilmsOnFreeviewApp/src/utils/FilmUtils.js");
 __d(/* FilmsOnFreeviewApp/src/screens/FilmDetailScreen.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -82447,7 +82505,7 @@ function FilmDetail(_ref) {
   var deviceWidth = _reactNative.Dimensions.get('window').width;
   var posterWidth = Math.round(deviceWidth / 2 - GUTTER * 4);
 
-  var showtimes = film.showtimes.nodes.map(function (showtime, idx) {
+  var showtimes = film.showtimes.map(function (showtime, idx) {
     return _react2.default.createElement(_FilmShowtimeText2.default, { style: styles.showtime, showtime: showtime, key: idx, __source: {
         fileName: _jsxFileName,
         lineNumber: 16
@@ -82540,23 +82598,6 @@ function FilmDetail(_ref) {
             'Showtimes:'
           ),
           showtimes
-        ),
-        _react2.default.createElement(
-          _reactNative.View,
-          { style: styles.readMoreContainer, __source: {
-              fileName: _jsxFileName,
-              lineNumber: 36
-            }
-          },
-          _react2.default.createElement(
-            _reactNative.Button,
-            { style: styles.readMoreButton, title: 'Read More on TMDb', onPress: openInTMDb, __source: {
-                fileName: _jsxFileName,
-                lineNumber: 37
-              }
-            },
-            'Open in TMDb'
-          )
         )
       )
     ),
@@ -82564,14 +82605,14 @@ function FilmDetail(_ref) {
       _reactNative.View,
       { style: styles.row, __source: {
           fileName: _jsxFileName,
-          lineNumber: 41
+          lineNumber: 38
         }
       },
       _react2.default.createElement(
         _reactNative.View,
         { style: styles.col, __source: {
             fileName: _jsxFileName,
-            lineNumber: 42
+            lineNumber: 39
           }
         },
         _react2.default.createElement(
@@ -82579,7 +82620,7 @@ function FilmDetail(_ref) {
           {
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 43
+              lineNumber: 40
             }
           },
           film.synopsis.trim()
@@ -82631,13 +82672,6 @@ var styles = _reactNative.StyleSheet.create({
   showtime: {
     fontSize: 12,
     marginBottom: 4
-  },
-  readMoreContainer: {
-    marginVertical: 12,
-    alignSelf: 'center'
-  },
-  readMoreButton: {
-    fontSize: 12
   }
 });
 }, 650, null, "FilmsOnFreeviewApp/src/components/FilmDetail.js");
@@ -82785,21 +82819,6 @@ var styles = _reactNative.StyleSheet.create({
   })
 });
 }, 651, null, "FilmsOnFreeviewApp/src/components/FilmPosterImage.js");
-__d(/* FilmsOnFreeviewApp/src/utils/FilmUtils.js */function(global, require, module, exports) {Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getPosterSize = getPosterSize;
-var POSTER_SIZES = [92, 154, 185, 342, 500, 780];
-
-function getPosterSize(targetWidth) {
-  for (var size in POSTER_SIZES) {
-    if (targetWidth <= size) {
-      return 'w' + size;
-    }
-  }
-  return 'original';
-}
-}, 652, null, "FilmsOnFreeviewApp/src/utils/FilmUtils.js");
 __d(/* FilmsOnFreeviewApp/src/assets/film-poster-placeholder.png */function(global, require, module, exports) {module.exports=require(324                                         ).registerAsset({"__packager_asset":true,"httpServerLocation":"/assets/src/assets","width":400,"height":500,"scales":[1],"hash":"5f516547729418a06f37784aa3cd69bf","name":"film-poster-placeholder","type":"png"}); // 324 = react-native/Libraries/Image/AssetRegistry
 }, 653, null, "FilmsOnFreeviewApp/src/assets/film-poster-placeholder.png");
 ;require(55);

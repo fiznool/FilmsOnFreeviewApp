@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import * as colors from '../theme/colors';
 import FilmList from '../components/FilmList';
+import { produceScheduleOfFilms } from '../utils/FilmUtils';
 
 const filmsListQuery = gql`
   query {
@@ -29,8 +30,8 @@ const filmsListQuery = gql`
 
 function FilmListScreen({ navigation, data }) {
   const { loading } = data;
-  const films = (data.films && data.films.nodes) || [];
-
+  const films = produceScheduleOfFilms((data.films && data.films.nodes) || []);
+  console.log(films);
   function onFilmSelected(film) {
     navigation.navigate('FilmDetail', {film})
   }

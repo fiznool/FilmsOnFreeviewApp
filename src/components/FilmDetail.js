@@ -13,7 +13,7 @@ function FilmDetail({ film }) {
   const deviceWidth = Dimensions.get('window').width;
   const posterWidth = Math.round((deviceWidth/2) - (GUTTER*4));
 
-  const showtimes = film.showtimes.nodes.map((showtime, idx) => <FilmShowtimeText style={styles.showtime} showtime={showtime} key={idx} />);
+  const showtimes = film.showtimes.map((showtime, idx) => <FilmShowtimeText style={styles.showtime} showtime={showtime} key={idx} />);
 
   function openInTMDb() {
     console.log();
