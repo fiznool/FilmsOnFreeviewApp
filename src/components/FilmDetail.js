@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Button, Dimensions, StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import * as colors from '../theme/colors';
@@ -15,6 +15,10 @@ function FilmDetail({ film }) {
 
   const showtimes = film.showtimes.nodes.map((showtime, idx) => <FilmShowtimeText style={styles.showtime} showtime={showtime} key={idx} />);
 
+  function openInTMDb() {
+    console.log();
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -24,8 +28,11 @@ function FilmDetail({ film }) {
         <View style={styles.col}>
           <Text style={styles.name}>{film.name}</Text>
           {film.year && <Text style={styles.year}>Released in {film.year}</Text>}
-          <Text style={styles.showtimesHeader}>Showtimes:</Text>
-          {showtimes}
+          {film.tmdbRating && <Text style={styles.rating}>Rating: {film.tmdbRating}%</Text>}
+          <View style={styles.showtimesContainer}>
+            <Text style={styles.showtimesHeader}>Showtimes:</Text>
+            {showtimes}
+          </View>
         </View>
       </View>
       <View style={styles.row}>
@@ -62,6 +69,13 @@ const styles = StyleSheet.create({
   year: {
     fontSize: 12,
     marginTop: 4
+  },
+  rating: {
+    fontSize: 12,
+    marginTop: 4
+  },
+  showtimesContainer: {
+    // flex: 1
   },
   showtimesHeader: {
     fontSize: 16,

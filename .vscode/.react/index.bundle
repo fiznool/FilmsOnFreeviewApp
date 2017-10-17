@@ -82455,32 +82455,34 @@ function FilmDetail(_ref) {
     });
   });
 
-  console.log(showtimes);
+  function openInTMDb() {
+    console.log();
+  }
 
   return _react2.default.createElement(
     _reactNative.View,
     { style: styles.container, __source: {
         fileName: _jsxFileName,
-        lineNumber: 21
+        lineNumber: 23
       }
     },
     _react2.default.createElement(
       _reactNative.View,
       { style: styles.row, __source: {
           fileName: _jsxFileName,
-          lineNumber: 22
+          lineNumber: 24
         }
       },
       _react2.default.createElement(
         _reactNative.View,
         { style: styles.col, __source: {
             fileName: _jsxFileName,
-            lineNumber: 23
+            lineNumber: 25
           }
         },
         _react2.default.createElement(_FilmPosterImage2.default, { width: posterWidth, tmdbId: film.tmdbId, __source: {
             fileName: _jsxFileName,
-            lineNumber: 24
+            lineNumber: 26
           }
         })
       ),
@@ -82488,52 +82490,88 @@ function FilmDetail(_ref) {
         _reactNative.View,
         { style: styles.col, __source: {
             fileName: _jsxFileName,
-            lineNumber: 26
+            lineNumber: 28
           }
         },
         _react2.default.createElement(
           _reactNative.Text,
           { style: styles.name, __source: {
               fileName: _jsxFileName,
-              lineNumber: 27
+              lineNumber: 29
             }
           },
           film.name
         ),
-        _react2.default.createElement(
+        film.year && _react2.default.createElement(
           _reactNative.Text,
           { style: styles.year, __source: {
               fileName: _jsxFileName,
-              lineNumber: 28
+              lineNumber: 30
             }
           },
           'Released in ',
           film.year
         ),
-        _react2.default.createElement(
+        film.tmdbRating && _react2.default.createElement(
           _reactNative.Text,
-          { style: styles.showtimesHeader, __source: {
+          { style: styles.rating, __source: {
               fileName: _jsxFileName,
-              lineNumber: 29
+              lineNumber: 31
             }
           },
-          'Showtimes:'
+          'Rating: ',
+          film.tmdbRating,
+          '%'
         ),
-        showtimes
+        _react2.default.createElement(
+          _reactNative.View,
+          { style: styles.showtimesContainer, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 32
+            }
+          },
+          _react2.default.createElement(
+            _reactNative.Text,
+            { style: styles.showtimesHeader, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 33
+              }
+            },
+            'Showtimes:'
+          ),
+          showtimes
+        ),
+        _react2.default.createElement(
+          _reactNative.View,
+          { style: styles.readMoreContainer, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 36
+            }
+          },
+          _react2.default.createElement(
+            _reactNative.Button,
+            { style: styles.readMoreButton, title: 'Read More on TMDb', onPress: openInTMDb, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 37
+              }
+            },
+            'Open in TMDb'
+          )
+        )
       )
     ),
     _react2.default.createElement(
       _reactNative.View,
       { style: styles.row, __source: {
           fileName: _jsxFileName,
-          lineNumber: 33
+          lineNumber: 41
         }
       },
       _react2.default.createElement(
         _reactNative.View,
         { style: styles.col, __source: {
             fileName: _jsxFileName,
-            lineNumber: 34
+            lineNumber: 42
           }
         },
         _react2.default.createElement(
@@ -82541,7 +82579,7 @@ function FilmDetail(_ref) {
           {
             __source: {
               fileName: _jsxFileName,
-              lineNumber: 35
+              lineNumber: 43
             }
           },
           film.synopsis.trim()
@@ -82578,6 +82616,11 @@ var styles = _reactNative.StyleSheet.create({
     fontSize: 12,
     marginTop: 4
   },
+  rating: {
+    fontSize: 12,
+    marginTop: 4
+  },
+  showtimesContainer: {},
   showtimesHeader: {
     fontSize: 16,
     marginTop: 12,
@@ -82588,6 +82631,13 @@ var styles = _reactNative.StyleSheet.create({
   showtime: {
     fontSize: 12,
     marginBottom: 4
+  },
+  readMoreContainer: {
+    marginVertical: 12,
+    alignSelf: 'center'
+  },
+  readMoreButton: {
+    fontSize: 12
   }
 });
 }, 650, null, "FilmsOnFreeviewApp/src/components/FilmDetail.js");
