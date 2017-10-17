@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { Image, Platform, StyleSheet, View, Text } from 'react-native';
 
 import * as colors from '../theme/colors';
 import ListItem from './ListItem';
+import FilmShowtimeText from './FilmShowtimeText';
 
 function FilmListItem({ film, onItemSelected }) {
   const nextShowtime = film.showtimes.nodes[0];
-  const nextShowTimeDate = moment(nextShowtime.startsAt).calendar();
-  const nextShowtimeChannel = nextShowtime.channel;
 
   function onFilmSelected() {
     onItemSelected(film);
@@ -20,7 +18,7 @@ function FilmListItem({ film, onItemSelected }) {
       <View style={styles.container}>
         <View style={styles.titlesContainer}>
           <Text style={styles.title}>{film.name}{film.year && <Text style={styles.year}> ({film.year})</Text>}</Text>
-          <Text style={styles.datetime}>{nextShowTimeDate} on {nextShowtimeChannel}</Text>
+          <FilmShowtimeText showtime={nextShowtime} style={styles.datetime} />
         </View>
         { !!(film.tmdbRating) && <View style={styles.ratingContainer}>
           <Text style={styles.rating}>{film.tmdbRating}%</Text>
