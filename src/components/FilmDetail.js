@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Button, Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import * as colors from '../theme/colors';
@@ -15,31 +15,29 @@ function FilmDetail({ film }) {
 
   const showtimes = film.showtimes.map((showtime, idx) => <FilmShowtimeText style={styles.showtime} showtime={showtime} key={idx} />);
 
-  function openInTMDb() {
-    console.log();
-  }
-
   return (
     <View style={styles.container}>
-      <View style={styles.row}>
-        <View style={styles.col}>
-          <FilmPosterImage width={posterWidth} tmdbId={film.tmdbId} />
-        </View>
-        <View style={styles.col}>
-          <Text style={styles.name}>{film.name}</Text>
-          {!!film.year && <Text style={styles.year}>Released in {film.year}</Text>}
-          {!!film.tmdbRating && <Text style={styles.rating}>Rating: {film.tmdbRating}%</Text>}
-          <View style={styles.showtimesContainer}>
-            <Text style={styles.showtimesHeader}>Showtimes:</Text>
-            {showtimes}
+      <ScrollView>
+        <View style={styles.row}>
+          <View style={styles.col}>
+            <FilmPosterImage width={posterWidth} tmdbId={film.tmdbId} />
+          </View>
+          <View style={styles.col}>
+            <Text style={styles.name}>{film.name}</Text>
+            {!!film.year && <Text style={styles.year}>Released in {film.year}</Text>}
+            {!!film.tmdbRating && <Text style={styles.rating}>Rating: {film.tmdbRating}%</Text>}
+            <View style={styles.showtimesContainer}>
+              <Text style={styles.showtimesHeader}>Showtimes:</Text>
+              {showtimes}
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.row}>
-        <View style={styles.col}>
-          <Text>{film.synopsis.trim()}</Text>
+        <View style={styles.row}>
+          <View style={styles.col}>
+            <Text>{film.synopsis.trim()}</Text>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </View>
   )
 }
@@ -81,8 +79,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 12,
     marginBottom: 4,
-    borderTopWidth: 1,
-    borderTopColor: colors.$concrete
   },
   showtime: {
     fontSize: 12,

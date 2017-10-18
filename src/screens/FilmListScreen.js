@@ -29,13 +29,25 @@ const filmsListQuery = gql`
 `;
 
 function FilmListScreen({ navigation, data }) {
-  const { loading } = data;
+  const { refetch, networkStatus } = data;
   const films = produceScheduleOfFilms((data.films && data.films.nodes) || []);
+
+  const loading    = networkStatus === 1;
+  const refreshing = networkStatus === 4;
+  const error      = networkStatus === 8;
 
   function onFilmSelected(film) {
     navigation.navigate('FilmDetail', {film})
   }
-  return <FilmList films={films} loading={loading} onFilmSelected={onFilmSelected} />
+
+  return (
+    <FilmList
+     films={films}
+     loading={loading}
+     refreshing={refreshing}
+     onFilmSelected={onFilmSelected}
+     onRefresh={refetch} />
+  )
 }
 
 FilmListScreen.propTypes = {
@@ -51,6 +63,8 @@ FilmListScreen.navigationOptions = {
   headerTintColor: colors.$white
 };
 
-const FilmListScreenWithData = graphql(filmsListQuery)(FilmListScreen);
+const FilmListScreenWithData = graphql(filmsListQuery, {
+  options: { notifyOnNetworkStatusChange: true }
+})(FilmListScreen);
 
 export default FilmListScreenWithData;
