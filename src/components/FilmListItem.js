@@ -5,6 +5,7 @@ import { Image, Platform, StyleSheet, View, Text } from 'react-native';
 import * as colors from '../theme/colors';
 import ListItem from './ListItem';
 import FilmShowtimeText from './FilmShowtimeText';
+import { generateRatingColor } from '../utils/FilmUtils';
 
 function FilmListItem({ film, onItemSelected }) {
   function onFilmSelected() {
@@ -19,7 +20,7 @@ function FilmListItem({ film, onItemSelected }) {
           <FilmShowtimeText showtime={film.nextShowtime} style={styles.datetime} />
         </View>
         { !!(film.tmdbRating) && <View style={styles.ratingContainer}>
-          <Text style={styles.rating}>{film.tmdbRating}%</Text>
+          <Text style={[styles.rating, { color: generateRatingColor(film.tmdbRating) }]}>{film.tmdbRating}%</Text>
         </View>}
       </View>
     </ListItem>
@@ -61,7 +62,6 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   rating: {
-    fontSize: 16,
-    color: colors.$primary
+    fontSize: 16
   }
 });

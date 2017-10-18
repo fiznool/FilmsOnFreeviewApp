@@ -51,3 +51,22 @@ export function produceScheduleOfFilms(films) {
     return showtimes;
   }
 }
+
+const MIN_HUE = 10;
+const MAX_HUE = 120;
+const LOWER_RATING_THRESHOLD = 45;
+const HIGHER_RATING_THRESHOLD = 75;
+
+export function generateRatingColor(rating) {
+  let hue;
+
+  if(rating < LOWER_RATING_THRESHOLD) {
+    hue = MIN_HUE;
+  } else if (rating > HIGHER_RATING_THRESHOLD) {
+    hue = MAX_HUE;
+  } else {
+    hue = ((rating - LOWER_RATING_THRESHOLD) / (HIGHER_RATING_THRESHOLD - LOWER_RATING_THRESHOLD)) * MAX_HUE;
+  }
+
+  return `hsl(${hue}, 70%, ${ hue < 20 ? '35%' : '25%'})`;
+}
