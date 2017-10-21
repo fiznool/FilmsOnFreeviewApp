@@ -1,5 +1,6 @@
 export const $primary    = '#68AA63';
 export const $primary700 = '#559951'
+export const $accent     = '#1F56B7';
 
 export const $mineShaft  = '#444444';
 export const $doveGray   = '#6D6C6C';

@@ -1,21 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import * as colors from '../theme/colors';
+import FilmFilterBar from './FilmFilterBar';
 import FilmListItem from './FilmListItem';
 
 function FilmList({ films, loading, refreshing, onFilmSelected, onRefresh }) {
   return (
-    <View>
+    <View style={styles.container}>
       { loading && <ActivityIndicator style={styles.loader} /> }
       <FlatList
-        style={styles.container}
         data={films}
         keyExtractor={item => item.id}
         renderItem={
           ({item}) => <FilmListItem film={item} onItemSelected={onFilmSelected} />
         }
+        ListHeaderComponent={() => !loading && films.length && <FilmFilterBar />}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -39,6 +40,7 @@ export default FilmList;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.$white,
+    flex: 1
   },
   loader: {
     marginTop: 100

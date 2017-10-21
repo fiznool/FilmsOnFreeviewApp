@@ -31,7 +31,7 @@ function FilmListItem({ film, onItemSelected }) {
   }
 
   return (
-    <ListItem style={styles.listItem} onPress={onFilmSelected} underlayColor={colors.$gallery}>
+    <ListItem onPress={onFilmSelected} underlayColor={colors.$gallery}>
       <View style={styles.container}>
         <View style={styles.titlesContainer}>
           <Text style={styles.title}>{film.name}{film.year && <Text style={styles.year}> ({film.year})</Text>}</Text>
