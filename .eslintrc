@@ -4,8 +4,14 @@
       "react",
       "react-native"
   ],
+  "globals": {
+    "__DEV__": true,
+    "require": true,
+    "console": true
+  },
   "extends": [
-      "plugin:react/recommended",
-      "plugin:react-native/all"
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-native/all"
   ]
 }

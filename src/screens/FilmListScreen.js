@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { gql, graphql } from 'react-apollo';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import * as colors from '../theme/colors';
 import FilmList from '../components/FilmList';
-import { produceScheduleOfFilms } from '../utils/FilmUtils';
+import { getFilter, filmsSelector } from '../selectors';
 
 const filmsListQuery = gql`
   query {
@@ -28,13 +29,11 @@ const filmsListQuery = gql`
   }
 `;
 
-function FilmListScreen({ navigation, data }) {
-  const { refetch, networkStatus } = data;
-  const films = produceScheduleOfFilms((data.films && data.films.nodes) || []);
+function FilmListScreen({ films, networkStatus, navigation, refetch }) {
 
   const loading    = networkStatus === 1;
   const refreshing = networkStatus === 4;
-  const error      = networkStatus === 8;
+  // const error      = networkStatus === 8;
 
   function onFilmSelected(film) {
     navigation.navigate('FilmDetail', {film})
@@ -51,7 +50,9 @@ function FilmListScreen({ navigation, data }) {
 }
 
 FilmListScreen.propTypes = {
-  data: PropTypes.object,
+  films: PropTypes.array,
+  networkStatus: PropTypes.number,
+  refetch: PropTypes.func,
   navigation: PropTypes.object
 }
 
@@ -63,8 +64,27 @@ FilmListScreen.navigationOptions = {
   headerTintColor: colors.$white
 };
 
+const mapQueryToProps = ({ ownProps: { filter, navigation }, data: { films, networkStatus, refetch } }) => {
+  films = films && filmsSelector({ films: films.nodes, filter }) || [];
+  return {
+    films,
+    networkStatus,
+    refetch,
+    navigation
+  };
+};
+
 const FilmListScreenWithData = graphql(filmsListQuery, {
+  props: mapQueryToProps,
   options: { notifyOnNetworkStatusChange: true }
 })(FilmListScreen);
 
-export default FilmListScreenWithData;
+const mapStateToProps = state => ({
+  filter: getFilter(state)
+});
+
+const FilmListScreenWithDataAndState = connect(
+  mapStateToProps
+)(FilmListScreenWithData)
+
+export default FilmListScreenWithDataAndState;

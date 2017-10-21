@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Button, Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import * as colors from '../theme/colors';

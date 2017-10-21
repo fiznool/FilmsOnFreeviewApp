@@ -2,7 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { ActivityIndicator, Image, PixelRatio, StyleSheet, View } from 'react-native';
 
-import { getPosterSize } from '../utils/FilmUtils';
+const POSTER_SIZES = [
+  92,
+  154,
+  185,
+  342,
+  500,
+  780
+]
+
+function getPosterSize(targetWidth) {
+  for(let size in POSTER_SIZES) {
+    if(targetWidth <= size) {
+      return `w${size}`;
+    }
+  }
+  return 'original';
+}
 
 export default class FilmPosterImage extends Component {
   constructor() {

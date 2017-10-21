@@ -1,11 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Image, Platform, StyleSheet, View, Text } from 'react-native';
+import { Platform, StyleSheet, View, Text } from 'react-native';
 
 import * as colors from '../theme/colors';
 import ListItem from './ListItem';
 import FilmShowtimeText from './FilmShowtimeText';
-import { generateRatingColor } from '../utils/FilmUtils';
+
+const MIN_HUE = 10;
+const MAX_HUE = 120;
+const LOWER_RATING_THRESHOLD = 45;
+const HIGHER_RATING_THRESHOLD = 75;
+
+function generateRatingColor(rating) {
+  let hue;
+
+  if(rating < LOWER_RATING_THRESHOLD) {
+    hue = MIN_HUE;
+  } else if (rating > HIGHER_RATING_THRESHOLD) {
+    hue = MAX_HUE;
+  } else {
+    hue = ((rating - LOWER_RATING_THRESHOLD) / (HIGHER_RATING_THRESHOLD - LOWER_RATING_THRESHOLD)) * MAX_HUE;
+  }
+
+  return `hsl(${hue}, 70%, ${ hue < 20 ? '35%' : '25%'})`;
+}
 
 function FilmListItem({ film, onItemSelected }) {
   function onFilmSelected() {
