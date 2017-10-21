@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import { Platform, StyleSheet, Text, TouchableOpacity, TouchableNativeFeedback, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import * as colors from '../theme/colors';
 
-const Touchable = Platform.OS === 'android' ? TouchableNativeFeedback : TouchableOpacity;
-
 const Button = ({ title, onPress }) => (
-  <Touchable style={buttonStyles.container} onPress={onPress}>
+  <TouchableOpacity style={buttonStyles.container} onPress={onPress}>
     <Text style={buttonStyles.title}>{title}</Text>
-  </Touchable>
+  </TouchableOpacity>
 )
 
 Button.propTypes = {
