@@ -1,14 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import * as colors from '../theme/colors';
 
-const Button = ({ title, onPress }) => (
-  <TouchableOpacity style={buttonStyles.container} onPress={onPress}>
-    <Text style={buttonStyles.title}>{title}</Text>
-  </TouchableOpacity>
-)
+const isAndroid = Platform.OS === 'android';
+
+const Button = ({ title, onPress }) => {
+  if(isAndroid && title) {
+    title = title.toUpperCase();
+  }
+
+  return (
+    <TouchableOpacity style={buttonStyles.container} onPress={onPress}>
+      <Text style={buttonStyles.title}>{title}</Text>
+    </TouchableOpacity>
+  );
+};
 
 Button.propTypes = {
   title: PropTypes.string.isRequired,
