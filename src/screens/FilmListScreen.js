@@ -1,10 +1,12 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
 import { gql, graphql } from 'react-apollo';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import * as colors from '../theme/colors';
 import FilmList from '../components/FilmList';
+import { actionCreators } from '../store/navigation';
 import { getFilter, filmsSelector } from '../selectors';
 
 const filmsListQuery = gql`
@@ -29,7 +31,7 @@ const filmsListQuery = gql`
   }
 `;
 
-function FilmListScreen({ films, networkStatus, navigation, refetch }) {
+function FilmListScreen({ films, networkStatus, navigation, refetch, showFilterOptionsModal }) {
 
   const loading    = networkStatus === 1;
   const refreshing = networkStatus === 4;
@@ -45,7 +47,8 @@ function FilmListScreen({ films, networkStatus, navigation, refetch }) {
      loading={loading}
      refreshing={refreshing}
      onFilmSelected={onFilmSelected}
-     onRefresh={refetch} />
+     onRefresh={refetch}
+     onFilterPress={showFilterOptionsModal} />
   )
 }
 
@@ -83,8 +86,9 @@ const mapStateToProps = state => ({
   filter: getFilter(state)
 });
 
-const FilmListScreenWithDataAndState = connect(
-  mapStateToProps
-)(FilmListScreenWithData)
+const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);
 
-export default FilmListScreenWithDataAndState;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FilmListScreenWithData)

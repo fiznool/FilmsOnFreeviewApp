@@ -1,14 +1,12 @@
 export const types = {
-  SETUP_FILTER_BOUNDS: '[Films] Setup Filter Bounds'
+  SAVE: '[Filter] Save'
 };
 
 export const actionCreators = {
-  setupFilterBounds: function(films) {
-    return {
-      type: types.SETUP_FILTER_BOUNDS,
-      payload: films
-    }
-  }
+  setupFilterBounds: filterOptions => ({
+    type: types.SAVE,
+    payload: filterOptions
+  })
 };
 
 const initialState = {
@@ -19,6 +17,16 @@ const initialState = {
   channels: []
 };
 
-export function reducer(state = initialState/* , action */) {
-  return state;
+export function reducer(state = initialState, action) {
+  switch(action.type) {
+    case types.SAVE:
+      return {
+        ...state,
+        ...action.payload
+      };
+
+    default:
+      return state;
+  }
+
 }

@@ -6,7 +6,14 @@ import * as colors from '../theme/colors';
 import FilmFilterBar from './FilmFilterBar';
 import FilmListItem from './FilmListItem';
 
-function FilmList({ films, loading, refreshing, onFilmSelected, onRefresh }) {
+function FilmList({
+  films,
+  loading,
+  refreshing,
+  onFilmSelected,
+  onRefresh,
+  onFilterPress
+}) {
   return (
     <View style={styles.container}>
       { loading && <ActivityIndicator style={styles.loader} /> }
@@ -16,7 +23,10 @@ function FilmList({ films, loading, refreshing, onFilmSelected, onRefresh }) {
         renderItem={
           ({item}) => <FilmListItem film={item} onItemSelected={onFilmSelected} />
         }
-        ListHeaderComponent={() => !loading && films.length && <FilmFilterBar />}
+        ListHeaderComponent={
+          () => !loading && films.length &&
+          <FilmFilterBar onPress={onFilterPress}/>
+        }
         refreshControl={
           <RefreshControl
             refreshing={refreshing}

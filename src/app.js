@@ -5,6 +5,7 @@ import { StackNavigator } from 'react-navigation';
 import * as colors from './theme/colors';
 import FilmListScreen from './screens/FilmListScreen';
 import FilmDetailsScreen from './screens/FilmDetailScreen';
+import FilmFilterModal from './screens/FilmFilterModal';
 
 const Screens = StackNavigator({
   FilmList: { screen: FilmListScreen },
@@ -19,6 +20,7 @@ export default class App extends Component {
       <View style={styles.container}>
         <StatusBar barStyle="light-content" backgroundColor={colors.$primary700} />
         <Screens />
+        <FilmFilterModal />
       </View>
     );
   }

@@ -41,9 +41,10 @@ const produceScheduleOfFilms = ({ films/* , filter */ }) =>  {
   }
 }
 
-export const getFilter = state => {
-  return state.filter;
-}
+export const getFilter = state => state.filter;
+
+export const getNavFilterOptionsModalVisible =
+  state => state.navigation.filterOptionsModalVisible;
 
 export const filmsSelector = ({ films = [], filter }) => (
   produceScheduleOfFilms({ films, filter })
