@@ -31,14 +31,18 @@ const filmsListQuery = gql`
   }
 `;
 
-function FilmListScreen({ films, networkStatus, navigation, refetch, showFilterOptionsModal }) {
+function FilmListScreen({ films, networkStatus, navigation, refetch }) {
 
   const loading    = networkStatus === 1;
   const refreshing = networkStatus === 4;
   // const error      = networkStatus === 8;
 
   function onFilmSelected(film) {
-    navigation.navigate('FilmDetail', {film})
+    navigation.navigate('FilmDetailScreen', {film})
+  }
+
+  function showFilterOptionsModal() {
+    navigation.navigate('FilterScreen');
   }
 
   return (
