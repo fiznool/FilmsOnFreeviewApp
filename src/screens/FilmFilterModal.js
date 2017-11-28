@@ -22,8 +22,8 @@ FilmFilterModal.navigationOptions = {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 80,
     flex: 1,
+    marginTop: 80,
     padding: 12,
     backgroundColor: colors.$white,
   },

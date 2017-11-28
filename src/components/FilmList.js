@@ -23,16 +23,14 @@ function FilmList({
         renderItem={
           ({item}) => <FilmListItem film={item} onItemSelected={onFilmSelected} />
         }
-        ListHeaderComponent={
-          () => !loading && films.length &&
-          <FilmFilterBar onPress={onFilterPress}/>
-        }
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
           />
         } />
+        { !loading && films.length &&
+          <FilmFilterBar onPress={onFilterPress}/> }
     </View>
   )
 }
