@@ -4,9 +4,7 @@ import { gql, graphql } from 'react-apollo';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import * as colors from '../theme/colors';
 import FilmList from '../components/FilmList';
-import { actionCreators } from '../store/navigation';
 import { getFilter, filmsSelector } from '../selectors';
 
 const filmsListQuery = gql`
@@ -42,7 +40,7 @@ function FilmListScreen({ films, networkStatus, navigation, refetch }) {
   }
 
   function showFilterOptionsModal() {
-    navigation.navigate('FilterScreen');
+    navigation.navigate('FilterScreen', { fromScreenKey: navigation.state.key.replace('Init-', '') });
   }
 
   return (
@@ -64,11 +62,7 @@ FilmListScreen.propTypes = {
 }
 
 FilmListScreen.navigationOptions = {
-  title: 'Films on Freeview',
-  headerStyle: {
-    backgroundColor: colors.$primary
-  },
-  headerTintColor: colors.$white
+  title: 'Films on Freeview'
 };
 
 const mapQueryToProps = ({ ownProps: { filter, navigation }, data: { films, networkStatus, refetch } }) => {
@@ -90,9 +84,6 @@ const mapStateToProps = state => ({
   filter: getFilter(state)
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(actionCreators, dispatch);
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(FilmListScreenWithData)

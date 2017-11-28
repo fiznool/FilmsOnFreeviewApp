@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 
-import * as colors from './theme/colors';
+import {colors} from './theme';
 import Screens from './router';
 
 export default class App extends Component {

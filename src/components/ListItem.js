@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Platform, StyleSheet, TouchableHighlight, TouchableNativeFeedback, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import * as colors from '../theme/colors';
+import {colors} from '../theme';
 
 function ListItem({ onPress, children, underlayColor }) {
   if(Platform.OS === 'android') {

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import * as colors from '../theme/colors';
+import {colors} from '../theme';
 
 const isAndroid = Platform.OS === 'android';
 

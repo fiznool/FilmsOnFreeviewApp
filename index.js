@@ -14,7 +14,6 @@ moment.updateLocale('en', {
 
 import App from './src/app';
 import { reducer as filterReducer } from './src/store/filter';
-import { reducer as navigationReducer } from './src/store/navigation';
 
 const isDev = __DEV__;
 
@@ -29,7 +28,6 @@ const client = new ApolloClient({
 const rootReducer = combineReducers({
   apollo: client.reducer(),
   filter: filterReducer,
-  navigation: navigationReducer
 });
 
 const middlewares = [

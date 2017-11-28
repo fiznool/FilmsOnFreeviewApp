@@ -2,7 +2,7 @@ import React from 'react';
 import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 
-import * as colors from '../theme/colors';
+import {colors} from '../theme';
 import FilmFilterBar from './FilmFilterBar';
 import FilmListItem from './FilmListItem';
 

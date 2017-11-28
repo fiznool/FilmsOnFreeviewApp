@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import * as colors from '../theme/colors';
 import FilmDetail from '../components/FilmDetail';
 
 function FilmDetailScreen({ navigation }) {
@@ -13,14 +12,10 @@ FilmDetailScreen.propTypes = {
   navigation: PropTypes.object
 }
 
-FilmDetailScreen.navigationOptions = (props) => {
-  const { film } = props.navigation.state.params;
+FilmDetailScreen.navigationOptions = ({navigation}) => {
+  const { film } = navigation.state.params;
   return {
-    title: film.name,
-    headerStyle: {
-      backgroundColor: colors.$primary
-    },
-    headerTintColor: colors.$white
+    title: film.name
   }
 };
 

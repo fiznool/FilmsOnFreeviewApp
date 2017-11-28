@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Platform, StyleSheet, View, Text } from 'react-native';
 
-import * as colors from '../theme/colors';
+import {colors} from '../theme';
 import ListItem from './ListItem';
 import FilmShowtimeText from './FilmShowtimeText';
 
