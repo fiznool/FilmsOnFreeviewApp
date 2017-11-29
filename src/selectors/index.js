@@ -23,8 +23,15 @@ const produceScheduleOfFilms = ({ films, filter }) => {
   }
 
   function filmFilter(film) {
-    // double equals to catch `null` and `undefined`
-    return filter.maxScore == null || film.tmdbRating >= filter.maxScore;
+    return filterFilmByRating(film) && filterFilmByYear(film);
+  }
+
+  function filterFilmByRating(film) {
+    return filter.minRating === 0 || film.tmdbRating >= filter.minRating;
+  }
+
+  function filterFilmByYear(film) {
+    return filter.minYear === null || film.year >= filter.minYear;
   }
 
   function filmSorter(a, b) {

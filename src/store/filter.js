@@ -1,18 +1,21 @@
 export const types = {
-  FILTER_CHANGED: '[Filter] Changed'
+  FILTER_CHANGED: '[Filter] Changed',
+  FILTER_RESET: '[Filter] Reset'
 };
 
 export const actionCreators = {
   filterChanged: filterOptions => ({
     type: types.FILTER_CHANGED,
     payload: filterOptions
+  }),
+  filterReset: () => ({
+    type: types.FILTER_RESET
   })
 };
 
 const initialState = {
-  maxRating: null,
+  minRating: 0,
   minYear: null,
-  maxYear: null,
   channels: []
 };
 
@@ -22,6 +25,11 @@ export function reducer(state = initialState, action) {
       return {
         ...state,
         ...action.payload
+      };
+
+    case types.FILTER_RESET:
+      return {
+        ...initialState
       };
 
     default:

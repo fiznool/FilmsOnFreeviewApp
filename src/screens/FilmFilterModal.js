@@ -11,7 +11,14 @@ import FilmFilterOptions from '../components/FilmFilterOptions';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 80,
+    backgroundColor: colors.$transparent,
+    justifyContent: 'flex-end'
+  },
+  content: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
     padding: 12,
     backgroundColor: colors.$white
   }
@@ -25,7 +32,8 @@ class FilmFilterModal extends PureComponent {
   static propTypes = {
     navigation: PropTypes.object,
     filterOptions: PropTypes.object,
-    applyFilter: PropTypes.func
+    applyFilter: PropTypes.func,
+    clearFilter: PropTypes.func
   };
 
   applyFilter = filterOptions => {
@@ -33,14 +41,21 @@ class FilmFilterModal extends PureComponent {
     this.props.navigation.dismiss();
   };
 
+  clearFilter = () => {
+    this.props.clearFilter();
+  };
+
   render() {
     const { filterOptions } = this.props;
     return (
       <View style={styles.container}>
-        <FilmFilterOptions
-          filterOptions={filterOptions}
-          applyFilter={this.applyFilter}
-        />
+        <View style={styles.content}>
+          <FilmFilterOptions
+            filterOptions={filterOptions}
+            applyFilter={this.applyFilter}
+            resetFilter={this.clearFilter}
+          />
+        </View>
       </View>
     );
   }
@@ -52,7 +67,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   applyFilter: filterOptions =>
-    dispatch(actionCreators.filterChanged(filterOptions))
+    dispatch(actionCreators.filterChanged(filterOptions)),
+
+  clearFilter: () => dispatch(actionCreators.filterReset())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilmFilterModal);

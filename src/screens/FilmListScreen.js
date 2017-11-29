@@ -76,7 +76,6 @@ const mapQueryToProps = ({
   data: { films, networkStatus, refetch }
 }) => {
   films = (films && filmsSelector({ films: films.nodes, filter })) || [];
-  console.log(films);
   return {
     films,
     networkStatus,
