@@ -1,25 +1,24 @@
 export const types = {
-  SAVE: '[Filter] Save'
+  FILTER_CHANGED: '[Filter] Changed'
 };
 
 export const actionCreators = {
-  setupFilterBounds: filterOptions => ({
-    type: types.SAVE,
+  filterChanged: filterOptions => ({
+    type: types.FILTER_CHANGED,
     payload: filterOptions
   })
 };
 
 const initialState = {
-  minScore: null,
-  maxScore: null,
+  maxRating: null,
   minYear: null,
   maxYear: null,
   channels: []
 };
 
 export function reducer(state = initialState, action) {
-  switch(action.type) {
-    case types.SAVE:
+  switch (action.type) {
+    case types.FILTER_CHANGED:
       return {
         ...state,
         ...action.payload
@@ -28,5 +27,4 @@ export function reducer(state = initialState, action) {
     default:
       return state;
   }
-
 }

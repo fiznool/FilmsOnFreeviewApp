@@ -1,9 +1,6 @@
 {
   "parser": "babel-eslint",
-  "plugins": [
-      "react",
-      "react-native"
-  ],
+  "plugins": ["react", "react-native"],
   "globals": {
     "__DEV__": true,
     "require": true,
@@ -15,6 +12,7 @@
     "plugin:react-native/all"
   ],
   "rules": {
-    "react/display-name": 0
+    "react/display-name": 0,
+    "quotes": [2, "single", { "avoidEscape": true }]
   }
 }

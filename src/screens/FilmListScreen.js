@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { bindActionCreators } from 'redux';
 import { gql, graphql } from 'react-apollo';
 import { connect } from 'react-redux';
@@ -29,29 +29,35 @@ const filmsListQuery = gql`
   }
 `;
 
-function FilmListScreen({ films, networkStatus, navigation, refetch }) {
+class FilmListScreen extends PureComponent {
+  render() {
+    const { films, networkStatus, navigation, refetch } = this.props;
 
-  const loading    = networkStatus === 1;
-  const refreshing = networkStatus === 4;
-  // const error      = networkStatus === 8;
+    const loading = networkStatus === 1;
+    const refreshing = networkStatus === 4;
+    // const error      = networkStatus === 8;
 
-  function onFilmSelected(film) {
-    navigation.navigate('FilmDetailScreen', {film})
+    function onFilmSelected(film) {
+      navigation.navigate('FilmDetailScreen', { film });
+    }
+
+    function showFilterOptionsModal() {
+      navigation.navigate('FilterScreen', {
+        fromScreenKey: navigation.state.key.replace('Init-', '')
+      });
+    }
+
+    return (
+      <FilmList
+        films={films}
+        loading={loading}
+        refreshing={refreshing}
+        onFilmSelected={onFilmSelected}
+        onRefresh={refetch}
+        onFilterPress={showFilterOptionsModal}
+      />
+    );
   }
-
-  function showFilterOptionsModal() {
-    navigation.navigate('FilterScreen', { fromScreenKey: navigation.state.key.replace('Init-', '') });
-  }
-
-  return (
-    <FilmList
-     films={films}
-     loading={loading}
-     refreshing={refreshing}
-     onFilmSelected={onFilmSelected}
-     onRefresh={refetch}
-     onFilterPress={showFilterOptionsModal} />
-  )
 }
 
 FilmListScreen.propTypes = {
@@ -59,14 +65,18 @@ FilmListScreen.propTypes = {
   networkStatus: PropTypes.number,
   refetch: PropTypes.func,
   navigation: PropTypes.object
-}
+};
 
 FilmListScreen.navigationOptions = {
   title: 'Films on Freeview'
 };
 
-const mapQueryToProps = ({ ownProps: { filter, navigation }, data: { films, networkStatus, refetch } }) => {
-  films = films && filmsSelector({ films: films.nodes, filter }) || [];
+const mapQueryToProps = ({
+  ownProps: { filter, navigation },
+  data: { films, networkStatus, refetch }
+}) => {
+  films = (films && filmsSelector({ films: films.nodes, filter })) || [];
+  console.log(films);
   return {
     films,
     networkStatus,
@@ -84,6 +94,4 @@ const mapStateToProps = state => ({
   filter: getFilter(state)
 });
 
-export default connect(
-  mapStateToProps
-)(FilmListScreenWithData)
+export default connect(mapStateToProps)(FilmListScreenWithData);
