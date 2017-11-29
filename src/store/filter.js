@@ -13,10 +13,19 @@ export const actionCreators = {
   })
 };
 
-const initialState = {
+const originalState = {
   minRating: 0,
   minYear: null,
   channels: []
+};
+
+const initialState = {
+  original: {
+    ...originalState
+  },
+  active: {
+    ...originalState
+  }
 };
 
 export function reducer(state = initialState, action) {
@@ -24,7 +33,10 @@ export function reducer(state = initialState, action) {
     case types.FILTER_CHANGED:
       return {
         ...state,
-        ...action.payload
+        active: {
+          ...state.active,
+          ...action.payload
+        }
       };
 
     case types.FILTER_RESET:

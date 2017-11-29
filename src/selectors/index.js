@@ -55,6 +55,8 @@ const produceScheduleOfFilms = ({ films, filter }) => {
 };
 
 export const getFilter = state => state.filter;
+export const getOriginalFilter = state => state.filter.original;
+export const getActiveFilter = state => state.filter.active;
 
 export const filmsSelector = ({ films = [], filter }) =>
   produceScheduleOfFilms({ films, filter });

@@ -42,15 +42,17 @@ const styles = StyleSheet.create({
 class FilmFilterOptions extends Component {
   constructor(props) {
     super(props);
-    this.state = this.pickFilterOptionsFromProps(props);
+    this.state = this.pickFilterOptionsFromProps(props.filterOptions.active);
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState(this.pickFilterOptionsFromProps(newProps));
+    this.setState(
+      this.pickFilterOptionsFromProps(newProps.filterOptions.active)
+    );
   }
 
   pickFilterOptionsFromProps(props) {
-    return pick(props.filterOptions, ['minRating', 'minYear']);
+    return pick(props, ['minRating', 'minYear']);
   }
 
   onRatingChange = rating =>
@@ -65,7 +67,10 @@ class FilmFilterOptions extends Component {
 
   applyFilter = () => this.props.applyFilter(this.state);
 
-  resetFilter = () => this.props.resetFilter();
+  resetFilter = () =>
+    this.setState(
+      this.pickFilterOptionsFromProps(this.props.filterOptions.original)
+    );
 
   render() {
     return (

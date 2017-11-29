@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import FilmList from '../components/FilmList';
-import { getFilter, filmsSelector } from '../selectors';
+import { getActiveFilter, filmsSelector } from '../selectors';
 
 const filmsListQuery = gql`
   query {
@@ -90,7 +90,7 @@ const FilmListScreenWithData = graphql(filmsListQuery, {
 })(FilmListScreen);
 
 const mapStateToProps = state => ({
-  filter: getFilter(state)
+  filter: getActiveFilter(state)
 });
 
 export default connect(mapStateToProps)(FilmListScreenWithData);
