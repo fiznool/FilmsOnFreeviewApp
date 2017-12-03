@@ -48,7 +48,7 @@ export default class FilmPosterImage extends Component {
     if (!tmdbImageId || this.state.loadError) {
       return (
         <Image
-          source={require('../assets/film-poster-placeholder.png')}
+          source={require('../assets/images/film-poster-placeholder.png')}
           style={{ width, height }}
         />
       );
