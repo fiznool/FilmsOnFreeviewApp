@@ -22,6 +22,7 @@ import { reducer as filterReducer } from './src/store/filter';
 const isDev = __DEV__;
 
 const networkInterface = createNetworkInterface({
+  // uri: 'http://localhost:5000/graphql'
   uri: 'https://filmsonfreeview.herokuapp.com/graphql'
 });
 

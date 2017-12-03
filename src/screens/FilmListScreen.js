@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { bindActionCreators } from 'redux';
 import { gql, graphql } from 'react-apollo';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -15,12 +14,15 @@ const filmsListQuery = gql`
         name
         year
         synopsis
-        tmdbId
+        imdbUrl
+        tmdbImageId
         tmdbRating
         showtimes: showtimesByFilmId {
           nodes {
-            startsAt
-            endsAt
+            startsAtDate
+            startsAtTime
+            endsAtDate
+            endsAtTime
             channel
           }
         }

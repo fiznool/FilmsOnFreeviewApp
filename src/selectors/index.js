@@ -34,12 +34,15 @@ const produceScheduleOfFilms = ({ films, filter }) => {
     return filter.minYear === null || film.year >= filter.minYear;
   }
 
-  function filmSorter(a, b) {
-    if (a.nextShowtime.startsAt < b.nextShowtime.startsAt) {
+  function filmSorter(first, second) {
+    const firstStartsAtMoment = first.nextShowtime.startsAtMoment;
+    const secondStartsAtMoment = second.nextShowtime.startsAtMoment;
+
+    if (firstStartsAtMoment.isBefore(secondStartsAtMoment)) {
       return -1;
     }
 
-    if (a.nextShowtime.startsAt > b.nextShowtime.startsAt) {
+    if (firstStartsAtMoment.isAfter(secondStartsAtMoment)) {
       return 1;
     }
 
@@ -47,12 +50,29 @@ const produceScheduleOfFilms = ({ films, filter }) => {
   }
 
   function showtimeReducer(showtimes, showtime) {
-    if (moment(showtime.startsAt).isAfter(now)) {
-      showtimes.push(showtime);
+    // Only show films which are starting in the future.
+    const startsAtMoment = toShowtimeMoment(
+      showtime.startsAtDate,
+      showtime.startsAtTime
+    );
+    const endsAtMoment = toShowtimeMoment(
+      showtime.endsAtDate,
+      showtime.endsAtTime
+    );
+    if (startsAtMoment.isAfter(now)) {
+      showtimes.push({
+        ...showtime,
+        startsAtMoment,
+        endsAtMoment
+      });
     }
     return showtimes;
   }
 };
+
+function toShowtimeMoment(startsAtDate, startsAtTime) {
+  return moment(`${startsAtDate} ${startsAtTime}`, 'YYYY-MM-DD HH:mm');
+}
 
 export const getFilter = state => state.filter;
 export const getOriginalFilter = state => state.filter.original;
