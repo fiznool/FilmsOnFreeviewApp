@@ -4,6 +4,7 @@ import {
   FlatList,
   RefreshControl,
   StyleSheet,
+  Text,
   View
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -11,6 +12,14 @@ import PropTypes from 'prop-types';
 import { colors } from '../theme';
 import FilmFilterBar from './FilmFilterBar';
 import FilmListItem from './FilmListItem';
+
+function EmptyList() {
+  return (
+    <View style={styles.emptyList}>
+      <Text>No films found! Try changing the filters.</Text>
+    </View>
+  );
+}
 
 function FilmList({
   films,
@@ -20,6 +29,8 @@ function FilmList({
   onRefresh,
   onFilterPress
 }) {
+  const emptyList = !(loading || films.length) ? <EmptyList /> : null;
+
   return (
     <View style={styles.container}>
       {loading && <ActivityIndicator style={styles.loader} />}
@@ -32,8 +43,9 @@ function FilmList({
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
+        ListEmptyComponent={emptyList}
       />
-      {!loading && !!films.length && <FilmFilterBar onPress={onFilterPress} />}
+      {!loading && <FilmFilterBar onPress={onFilterPress} />}
     </View>
   );
 }
@@ -56,5 +68,10 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginTop: 100
+  },
+  emptyList: {
+    marginTop: 40,
+    marginVertical: 20,
+    alignItems: 'center'
   }
 });

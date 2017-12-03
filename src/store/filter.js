@@ -1,4 +1,4 @@
-export const types = {
+const types = {
   FILTER_CHANGED: '[Filter] Changed',
   FILTER_RESET: '[Filter] Reset'
 };

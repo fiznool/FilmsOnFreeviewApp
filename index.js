@@ -1,12 +1,9 @@
 import React from 'react';
 import { AppRegistry } from 'react-native';
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import logger from 'redux-logger';
-import {
-  ApolloClient,
-  ApolloProvider,
-  createNetworkInterface
-} from 'react-apollo';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 
 import moment from 'moment';
 
@@ -18,38 +15,30 @@ moment.updateLocale('en', {
 
 import App from './src/app';
 import { reducer as filterReducer } from './src/store/filter';
-
-const isDev = __DEV__;
-
-const networkInterface = createNetworkInterface({
-  // uri: 'http://localhost:5000/graphql'
-  uri: 'https://filmsonfreeview.herokuapp.com/graphql'
-});
-
-const client = new ApolloClient({
-  networkInterface
-});
+import {
+  reducer as filmsReducer,
+  actionCreators as filmsActionCreators
+} from './src/store/films';
 
 const rootReducer = combineReducers({
-  apollo: client.reducer(),
-  filter: filterReducer
+  filter: filterReducer,
+  films: filmsReducer
 });
 
-const middlewares = [client.middleware()];
-
-if (isDev) {
-  middlewares.push(logger);
-}
+const middlewares = [thunk];
 
 const store = createStore(
   rootReducer,
-  compose(applyMiddleware(...middlewares))
+  composeWithDevTools(applyMiddleware(...middlewares))
 );
 
-const ApolloApp = () => (
-  <ApolloProvider store={store} client={client}>
+// Fetch films when we begin the app
+store.dispatch(filmsActionCreators.fetchFilms());
+
+const ReduxApp = () => (
+  <Provider store={store}>
     <App />
-  </ApolloProvider>
+  </Provider>
 );
 
-AppRegistry.registerComponent('FilmsOnFreeviewApp', () => ApolloApp);
+AppRegistry.registerComponent('FilmsOnFreeviewApp', () => ReduxApp);

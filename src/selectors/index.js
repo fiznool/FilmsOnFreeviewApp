@@ -3,7 +3,7 @@
 
 import moment from 'moment';
 
-const produceScheduleOfFilms = ({ films, filter }) => {
+const produceScheduleOfFilms = ({ films = [], filter }) => {
   const now = Date.now();
   return films
     .reduce(filmReducer, [])
@@ -11,7 +11,7 @@ const produceScheduleOfFilms = ({ films, filter }) => {
     .sort(filmSorter);
 
   function filmReducer(films, film) {
-    const showtimes = film.showtimes.nodes.reduce(showtimeReducer, []);
+    const showtimes = film.showtimes.reduce(showtimeReducer, []);
     if (showtimes.length) {
       films.push({
         ...film,
@@ -78,5 +78,12 @@ export const getFilter = state => state.filter;
 export const getOriginalFilter = state => state.filter.original;
 export const getActiveFilter = state => state.filter.active;
 
-export const filmsSelector = ({ films = [], filter }) =>
-  produceScheduleOfFilms({ films, filter });
+export const getFilms = state => state.films;
+export const getFilmsCollection = state => state.films.collection;
+export const getFilmsLoading = state => state.films.isLoading;
+
+export const getFilteredFilms = state => {
+  const films = getFilmsCollection(state);
+  const filter = getActiveFilter(state);
+  return produceScheduleOfFilms({ films, filter });
+};

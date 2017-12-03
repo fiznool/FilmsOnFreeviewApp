@@ -1,59 +1,29 @@
 import React, { PureComponent } from 'react';
-import { gql, graphql } from 'react-apollo';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import FilmList from '../components/FilmList';
-import { getActiveFilter, filmsSelector } from '../selectors';
-
-const filmsListQuery = gql`
-  query {
-    films: allFilms {
-      nodes {
-        id
-        name
-        year
-        synopsis
-        imdbUrl
-        tmdbImageId
-        tmdbRating
-        showtimes: showtimesByFilmId {
-          nodes {
-            startsAtDate
-            startsAtTime
-            endsAtDate
-            endsAtTime
-            channel
-          }
-        }
-      }
-    }
-  }
-`;
+import { getFilteredFilms, getFilmsLoading } from '../selectors';
+import { actionCreators as filmsActionCreators } from '../store/films';
 
 class FilmListScreen extends PureComponent {
   render() {
-    const { films, networkStatus, navigation, refetch } = this.props;
-
-    const loading = networkStatus === 1;
-    const refreshing = networkStatus === 4;
-    // const error      = networkStatus === 8;
+    const { films, isLoading, refetch, navigation } = this.props;
+    const hasFilms = !!(films && films.length);
 
     function onFilmSelected(film) {
       navigation.navigate('FilmDetailScreen', { film });
     }
 
     function showFilterOptionsModal() {
-      navigation.navigate('FilterScreen', {
-        fromScreenKey: navigation.state.key.replace('Init-', '')
-      });
+      navigation.navigate('FilterScreen');
     }
 
     return (
       <FilmList
         films={films}
-        loading={loading}
-        refreshing={refreshing}
+        loading={isLoading && !hasFilms}
+        refreshing={isLoading && hasFilms}
         onFilmSelected={onFilmSelected}
         onRefresh={refetch}
         onFilterPress={showFilterOptionsModal}
@@ -64,7 +34,7 @@ class FilmListScreen extends PureComponent {
 
 FilmListScreen.propTypes = {
   films: PropTypes.array,
-  networkStatus: PropTypes.number,
+  isLoading: PropTypes.bool,
   refetch: PropTypes.func,
   navigation: PropTypes.object
 };
@@ -73,26 +43,15 @@ FilmListScreen.navigationOptions = {
   title: 'Films on Freeview'
 };
 
-const mapQueryToProps = ({
-  ownProps: { filter, navigation },
-  data: { films, networkStatus, refetch }
-}) => {
-  films = (films && filmsSelector({ films: films.nodes, filter })) || [];
+const mapStateToProps = state => {
   return {
-    films,
-    networkStatus,
-    refetch,
-    navigation
+    films: getFilteredFilms(state),
+    isLoading: getFilmsLoading(state)
   };
 };
 
-const FilmListScreenWithData = graphql(filmsListQuery, {
-  props: mapQueryToProps,
-  options: { notifyOnNetworkStatusChange: true }
-})(FilmListScreen);
-
-const mapStateToProps = state => ({
-  filter: getActiveFilter(state)
+const mapDispatchToProps = dispatch => ({
+  refetch: () => dispatch(filmsActionCreators.fetchFilms())
 });
 
-export default connect(mapStateToProps)(FilmListScreenWithData);
+export default connect(mapStateToProps, mapDispatchToProps)(FilmListScreen);
