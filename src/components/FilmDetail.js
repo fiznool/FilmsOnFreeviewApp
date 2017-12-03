@@ -2,7 +2,7 @@ import React from 'react';
 import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 
-import {colors} from '../theme';
+import { colors } from '../theme';
 
 import FilmPosterImage from './FilmPosterImage';
 import FilmShowtimeText from './FilmShowtimeText';
@@ -11,21 +11,30 @@ const GUTTER = 6;
 
 function FilmDetail({ film }) {
   const deviceWidth = Dimensions.get('window').width;
-  const posterWidth = Math.round((deviceWidth/2) - (GUTTER*4));
+  const posterWidth = Math.round(deviceWidth / 2 - GUTTER * 4);
 
-  const showtimes = film.showtimes.map((showtime, idx) => <FilmShowtimeText style={styles.showtime} showtime={showtime} key={idx} />);
+  const showtimes = film.showtimes.map((showtime, idx) => (
+    <FilmShowtimeText style={styles.showtime} showtime={showtime} key={idx} />
+  ));
 
   return (
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.row}>
           <View style={styles.col}>
-            <FilmPosterImage width={posterWidth} tmdbId={film.tmdbId} />
+            <FilmPosterImage
+              width={posterWidth}
+              tmdbImageId={film.tmdbImageId}
+            />
           </View>
           <View style={styles.col}>
             <Text style={styles.name}>{film.name}</Text>
-            {!!film.year && <Text style={styles.year}>Released in {film.year}</Text>}
-            {!!film.tmdbRating && <Text style={styles.rating}>Rating: {film.tmdbRating}%</Text>}
+            {!!film.year && (
+              <Text style={styles.year}>Released in {film.year}</Text>
+            )}
+            {!!film.tmdbRating && (
+              <Text style={styles.rating}>Rating: {film.tmdbRating}%</Text>
+            )}
             <View style={styles.showtimesContainer}>
               <Text style={styles.showtimesHeader}>Showtimes:</Text>
               {showtimes}
@@ -39,12 +48,12 @@ function FilmDetail({ film }) {
         </View>
       </ScrollView>
     </View>
-  )
+  );
 }
 
 FilmDetail.propTypes = {
   film: PropTypes.object.isRequired
-}
+};
 
 export default FilmDetail;
 
@@ -59,10 +68,10 @@ const styles = StyleSheet.create({
   },
   col: {
     flex: 1,
-    margin: GUTTER,
+    margin: GUTTER
   },
   name: {
-    fontSize: 16,
+    fontSize: 16
   },
   year: {
     fontSize: 12,
@@ -78,7 +87,7 @@ const styles = StyleSheet.create({
   showtimesHeader: {
     fontSize: 16,
     marginTop: 12,
-    marginBottom: 4,
+    marginBottom: 4
   },
   showtime: {
     fontSize: 12,
